@@ -9,16 +9,16 @@ describe('createCountdownEmbed', () => {
             }
         };
 
-        const futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
+        const futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24h no futuro
         const embed = createCountdownEmbed(futureDate, fakeClient);
 
         expect(embed).toBeDefined();
-        expect(embed.data.title).toContain('MITPA Launch Countdown');
-        expect(embed.data.description).toMatch(/\d+d \d+h \d+m \d+s/);
+        expect(embed.embeds[0].data.title).toContain('MITPA Launch Countdown');
+        expect(embed.embeds[0].data.description).toMatch(/\d+d \d+h \d+m \d+s/);
     });
 
     it('returns null if launch date is in the past', () => {
-        const pastDate = new Date(Date.now() - 10000);
+        const pastDate = new Date(Date.now() - 10000); // 10 segundos no passado
         const fakeClient = {
             user: {
                 displayAvatarURL: () => 'https://example.com/avatar.png'
