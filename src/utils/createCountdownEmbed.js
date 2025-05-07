@@ -1,4 +1,4 @@
-import { EmbedBuilder } from 'discord.js';
+import { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } from 'discord.js';
 
 export default function createCountdownEmbed(launchDate, client) {
     const now = new Date();
@@ -11,10 +11,23 @@ export default function createCountdownEmbed(launchDate, client) {
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    return new EmbedBuilder()
-        .setColor('#FF0000')
-        .setTitle('⏳ MITPA Launch Countdown')
-        .setDescription(`The official launch is coming!\n\n**${days}d ${hours}h ${minutes}m ${seconds}s** left!`)
-        .setFooter({ text: 'Stay ready. It’s coming…', iconURL: client.user.displayAvatarURL() });
-}
+    const embed = new EmbedBuilder()
+        .setColor('#FF4D00')
+        .setTitle('🚀 MITPA Launch Countdown')
+        .setDescription(
+            `✨ The official launch is almost here!\n\n` +
+            `**🗓️ ${days}d ${hours}h ${minutes}m ${seconds}s** remaining until the big moment!\n\n` +
+            `📡 Stay tuned and get ready to join us!`
+        )
+        .setThumbnail(client.user.displayAvatarURL())
+        .setFooter({ text: 'MITPA • Preparing for liftoff…', iconURL: client.user.displayAvatarURL() });
 
+    const button = new ButtonBuilder()
+        .setLabel('🌐 Visit the Website')
+        .setStyle(ButtonStyle.Link)
+        .setURL('https://mitpa.tech');
+
+    const row = new ActionRowBuilder().addComponents(button);
+
+    return { embeds: [embed], components: [row] };
+}

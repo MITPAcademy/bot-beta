@@ -5,8 +5,8 @@ const launchDate = new Date(config.launchTimestamp);
 
 export default async function startCountdown(client) {
     async function updateEmbed() {
-        const embed = createCountdownEmbed(launchDate, client);
-        if (!embed) return;
+        const { embeds, components } = createCountdownEmbed(launchDate, client);
+        if (!embeds || embeds.length === 0) return;
 
         const channel = await client.channels.fetch(config.welcomeChannelId);
         if (!channel) return;
@@ -15,12 +15,13 @@ export default async function startCountdown(client) {
         const botMsg = messages.find(msg => msg.author.id === client.user.id && msg.embeds.length > 0);
 
         if (botMsg) {
-            await botMsg.edit({ embeds: [embed] });
+            await botMsg.edit({ embeds, components });
         } else {
-            await channel.send({ embeds: [embed] });
+            await channel.send({ embeds, components });
         }
+
+        setTimeout(updateEmbed, 1000);
     }
 
     await updateEmbed();
-    setInterval(updateEmbed, 1000);
 }
