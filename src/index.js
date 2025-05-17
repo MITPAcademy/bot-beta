@@ -47,8 +47,8 @@ client.on('interactionCreate', async interaction => {
     } else if (commandName === 'about') {
         const embed = new EmbedBuilder()
             .setColor('#5865F2')
-            .setTitle('About MITPA Beta Bot')
-            .setDescription('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.');
+            .setTitle('About MITPA')
+            .setDescription('MITPA is an open-source community focused on helping students prepare for admission to the Massachusetts Institute of Technology (MIT). It provides a platform for students worldwide to discuss study strategies, share experiences, and connect with like-minded individuals. The primary language of the community is English, and it aims to foster collaboration, knowledge exchange, and academic growth.');
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }
 });

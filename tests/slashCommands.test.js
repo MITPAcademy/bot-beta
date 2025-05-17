@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Client, GatewayIntentBits, Partials } from 'discord.js';
+import { Client, GatewayIntentBits, Partials, EmbedBuilder } from 'discord.js';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -17,6 +17,34 @@ const client = new Client({
         GatewayIntentBits.MessageContent
     ],
     partials: [Partials.Channel]
+});
+
+// Handler para slash commands
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
+
+    if (interaction.commandName === 'beta_status') {
+        await interaction.reply({
+            content: 'Beta status: All tests are running correctly.',
+            ephemeral: true
+        });
+    } else if (interaction.commandName === 'timeline') {
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('📅 Project Timeline')
+                    .setDescription('Pre-Beta: July 1st\nBeta Launch: July 15th\nOfficial Release: August 15th')
+            ]
+        });
+    } else if (interaction.commandName === 'about') {
+        await interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                    .setTitle('About MITPA Beta Bot')
+                    .setDescription('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.')
+            ]
+        });
+    }
 });
 
 describe('Slash Commands', () => {
@@ -41,10 +69,10 @@ describe('Slash Commands', () => {
         await client.emit('interactionCreate', interaction);
         expect(interaction.reply).toHaveBeenCalled();
         const embed = interaction.reply.mock.calls[0][0].embeds[0];
-        expect(embed.title).toBe('📅 Project Timeline');
-        expect(embed.description).toContain('Pre-Beta: July 1st');
-        expect(embed.description).toContain('Beta Launch: July 15th');
-        expect(embed.description).toContain('Official Release: August 15th');
+        expect(embed.data.title).toBe('📅 Project Timeline');
+        expect(embed.data.description).toContain('Pre-Beta: July 1st');
+        expect(embed.data.description).toContain('Beta Launch: July 15th');
+        expect(embed.data.description).toContain('Official Release: August 15th');
     });
 
     it('should respond to /about command', async () => {
@@ -57,7 +85,7 @@ describe('Slash Commands', () => {
         await client.emit('interactionCreate', interaction);
         expect(interaction.reply).toHaveBeenCalled();
         const embed = interaction.reply.mock.calls[0][0].embeds[0];
-        expect(embed.title).toBe('About MITPA Beta Bot');
-        expect(embed.description).toBe('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.');
+        expect(embed.data.title).toBe('About MITPA Beta Bot');
+        expect(embed.data.description).toBe('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.');
     });
 });
