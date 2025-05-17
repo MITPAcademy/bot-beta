@@ -59,7 +59,7 @@ client.on('messageCreate', async message => {
         const embed = new EmbedBuilder()
             .setColor('#FF0000')
             .setTitle('⚠️ Notice')
-            .setDescription('This channel only supports slash commands.');
+            .setDescription('This channel <#1373096880288039045> only supports slash commands.');
         await message.author.send({ embeds: [embed] });
     }
 });
