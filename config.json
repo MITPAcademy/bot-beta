@@ -1,4 +1,5 @@
 {
   "welcomeChannelId": "1369728433311055924",
-  "launchTimestamp": "2025-08-15T00:00:00Z"
+  "launchTimestamp": "2025-08-15T00:00:00Z",
+  "monitoredChannelId": "YOUR_MONITORED_CHANNEL_ID"
 }
