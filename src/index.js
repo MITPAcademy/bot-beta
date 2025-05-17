@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits, Partials, EmbedBuilder, SlashCommandBuilder 
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fetch from 'node-fetch';
 
 import registerWelcomeEvent from './events/welcome.js';
 import startCountdown from './events/countdown.js';
@@ -36,8 +37,9 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'beta_status') {
-        // Placeholder for GitHub workflow status check
-        await interaction.reply({ content: 'Beta status: All tests are running correctly.', ephemeral: true });
+        // GitHub workflow status check
+        const statusMessage = await getWorkflowStatus();
+        await interaction.reply({ content: `Beta status: ${statusMessage}`, ephemeral: true });
     } else if (commandName === 'timeline') {
         const embed = new EmbedBuilder()
             .setColor('#5865F2')
@@ -72,6 +74,48 @@ function registerSlashCommands() {
     ].map(command => command.toJSON());
 
     client.application.commands.set(commands);
+}
+
+async function getWorkflowStatus() {
+    const owner = 'MITPAcademy';
+    const repo = 'bot-beta';
+    const workflowFileName = 'test.yml';
+    const githubToken = process.env.GITHUB_TOKEN; // Set your GitHub token in environment variables
+
+    const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFileName}/runs?branch=main&per_page=1`;
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'application/vnd.github+json',
+                'Authorization': `Bearer ${githubToken}`,
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        });
+
+        if (!response.ok) {
+            return `⚠️ Could not fetch workflow status (GitHub API error: ${response.status}).`;
+        }
+
+        const data = await response.json();
+        const run = data.workflow_runs && data.workflow_runs[0];
+
+        if (!run) {
+            return '❌ No workflow run found for the main branch.';
+        }
+
+        if (run.conclusion === 'success') {
+            return '✅ All tests passed in the latest workflow.';
+        } else if (run.conclusion === 'failure') {
+            return '❌ The latest workflow failed.';
+        } else if (run.status === 'in_progress' || run.status === 'queued') {
+            return `⏳ The latest workflow is currently ${run.status.replace('_', ' ')}.`;
+        } else {
+            return `⚠️ Latest workflow status: ${run.status}, conclusion: ${run.conclusion ?? 'N/A'}`;
+        }
+    } catch (error) {
+        return `⚠️ Error fetching workflow status: ${error.message}`;
+    }
 }
 
 client.login(process.env.DISCORD_TOKEN);
