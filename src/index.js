@@ -77,18 +77,13 @@ function registerSlashCommands() {
 }
 
 async function getWorkflowStatus() {
-    const owner = 'MITPAcademy';
-    const repo = 'bot-beta';
-    const workflowFileName = 'test.yml';
-    const githubToken = process.env.GITHUB_TOKEN; // Set your GitHub token in environment variables
-
-    const url = `https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFileName}/runs?branch=main&per_page=1`;
+    // Não precisa de GITHUB_TOKEN para repositórios públicos
+    const url = `https://api.github.com/repos/MITPAcademy/bot-beta/actions/workflows/test.yml/runs?branch=main&per_page=1`;
 
     try {
         const response = await fetch(url, {
             headers: {
                 'Accept': 'application/vnd.github+json',
-                'Authorization': `Bearer ${githubToken}`,
                 'X-GitHub-Api-Version': '2022-11-28'
             }
         });
