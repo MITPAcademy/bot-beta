@@ -19,7 +19,6 @@ const client = new Client({
     partials: [Partials.Channel]
 });
 
-// Handler para slash commands
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 

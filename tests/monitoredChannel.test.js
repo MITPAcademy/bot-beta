@@ -19,14 +19,11 @@ const client = new Client({
     partials: [Partials.Channel]
 });
 
-// Handler para ser testado
 const MONITORED_CHANNEL_ID = 'YOUR_MONITORED_CHANNEL_ID';
 
 client.on('messageCreate', async (message) => {
-    // Ignore bot messages
     if (message.author?.bot) return;
 
-    // Apenas monitora o canal específico
     if (message.channel?.id === MONITORED_CHANNEL_ID) {
         await message.delete?.();
         if (message.author?.send) {

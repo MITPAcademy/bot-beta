@@ -9,7 +9,7 @@ describe('createCountdownEmbed', () => {
             }
         };
 
-        const futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24); // 24h no futuro
+        const futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
         const embed = createCountdownEmbed(futureDate, fakeClient);
 
         expect(embed).toBeDefined();
@@ -18,7 +18,7 @@ describe('createCountdownEmbed', () => {
     });
 
     it('returns null if launch date is in the past', () => {
-        const pastDate = new Date(Date.now() - 10000); // 10 segundos no passado
+        const pastDate = new Date(Date.now() - 10000);
         const fakeClient = {
             user: {
                 displayAvatarURL: () => 'https://example.com/avatar.png'

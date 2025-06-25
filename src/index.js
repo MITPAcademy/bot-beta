@@ -3,8 +3,11 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fetch from 'node-fetch';
+import express from 'express';
+import embedRouter from './routes/embed.js';
 
 import registerWelcomeEvent from './events/welcome.js';
+import registerRulesPrompt from './events/apply.js';
 import startCountdown from './events/countdown.js';
 import config from '../config.json' with { type: "json" };
 
@@ -30,6 +33,7 @@ client.once('ready', () => {
 });
 
 registerWelcomeEvent(client);
+registerRulesPrompt(client);
 
 client.on('interactionCreate', async interaction => {
     if (!interaction.isCommand()) return;
@@ -77,7 +81,6 @@ function registerSlashCommands() {
 }
 
 async function getWorkflowStatus() {
-    // Não precisa de GITHUB_TOKEN para repositórios públicos
     const url = `https://api.github.com/repos/MITPAcademy/bot-beta/actions/workflows/test.yml/runs?branch=main&per_page=1`;
 
     try {
@@ -112,5 +115,14 @@ async function getWorkflowStatus() {
         return `⚠️ Error fetching workflow status: ${error.message}`;
     }
 }
+
+const app = express();
+app.use(express.json());
+app.use('/embed', embedRouter);
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Express server running on port ${PORT}`);
+});
 
 client.login(process.env.DISCORD_TOKEN);
