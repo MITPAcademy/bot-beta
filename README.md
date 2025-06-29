@@ -1,10 +1,10 @@
-# MITPA Beta Bot — Discord Onboarding & Countdown System
+# PRACTA Beta Bot — Discord Onboarding & Countdown System
 
 > 🤖 Welcoming members and counting down to launch — professionally and privately.
 
 ## Overview
 
-**MITPA Beta Bot** is a professional, elegant, and pre-launch Discord bot built for the **MITPA** community.  
+**PRACTA Beta Bot** is a professional, elegant, and pre-launch Discord bot built for the **PRACTA** community.  
 It welcomes new members with a private onboarding message and keeps everyone informed with a real-time countdown to the official launch — all in beautifully designed embeds.
 
 ---
