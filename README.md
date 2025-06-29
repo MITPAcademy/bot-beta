@@ -1,4 +1,3 @@
-
 # MITPA Beta Bot — Discord Onboarding & Countdown System
 
 > 🤖 Welcoming members and counting down to launch — professionally and privately.
@@ -13,7 +12,7 @@ It welcomes new members with a private onboarding message and keeps everyone inf
 ## 🌟 Purpose
 
 - Professionally onboard new users joining the Discord server.
-- Display a public, live countdown to the launch of **MITPA**.
+- Display a public, live countdown to the launch of **PRACTA**.
 - Help build anticipation and engagement before the platform goes live.
 
 ---
@@ -47,8 +46,8 @@ It welcomes new members with a private onboarding message and keeps everyone inf
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/MITPAcademy/mitpa-beta-bot.git
-   cd mitpa-beta-bot
+   git clone https://github.com/PRACTAcademy/bot-beta.git
+   cd bot-beta
 
 2. Install dependencies:
 
@@ -103,7 +102,7 @@ bot-beta/
 
 ## 🤝 Contributing
 
-Want to improve the MITPA Beta Bot? Feel free to collaborate:
+Want to improve the PRACTA Beta Bot? Feel free to collaborate:
 
 1. Fork this repository.
 2. Create a new branch: `git checkout -b feat-my-feature`.
@@ -125,9 +124,9 @@ Enhancements to embed design, performance, or new event handling are welcome! �
 
 ## 📡 Contact & Community
 
-* 🌐 **Website:** [https://mitpa.tech](https://mitpa.tech)
-* 💬 **Discord:** [MITPA Community](https://mitpa.tech/discord)
-* 💻 **GitHub:** [MITPAcademy](https://github.com/MITPAcademy)
+* 🌐 **Website:** [https://practa.tech](https://practa.tech)
+* 💬 **Discord:** [PRACTA Community](https://practa.tech/discord)
+* 💻 **GitHub:** [PRACTAcademy](https://github.com/PRACTAcademy)
 
 ---
 
@@ -137,5 +136,5 @@ MIT — see the `LICENSE` file for more details.
 
 ---
 
-> 🧠 MITPA Beta Bot — Creating first impressions that matter.
+> 🧠 PRACTA Beta Bot — Creating first impressions that matter.
  

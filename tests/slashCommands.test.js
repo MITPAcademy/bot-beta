@@ -39,8 +39,8 @@ client.on('interactionCreate', async (interaction) => {
         await interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setTitle('About MITPA Beta Bot')
-                    .setDescription('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.')
+                    .setTitle('About PRACTA Beta Bot')
+                    .setDescription('PRACTA Beta Bot is designed to welcome new members and provide a countdown to the official launch.')
             ]
         });
     }
@@ -84,7 +84,7 @@ describe('Slash Commands', () => {
         await client.emit('interactionCreate', interaction);
         expect(interaction.reply).toHaveBeenCalled();
         const embed = interaction.reply.mock.calls[0][0].embeds[0];
-        expect(embed.data.title).toBe('About MITPA Beta Bot');
-        expect(embed.data.description).toBe('MITPA Beta Bot is designed to welcome new members and provide a countdown to the official launch.');
+        expect(embed.data.title).toBe('About PRACTA Beta Bot');
+        expect(embed.data.description).toBe('PRACTA Beta Bot is designed to welcome new members and provide a countdown to the official launch.');
     });
 });

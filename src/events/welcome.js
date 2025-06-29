@@ -5,9 +5,9 @@ export default function registerWelcomeEvent(client) {
         try {
             const embed = new EmbedBuilder()
                 .setColor('#5865F2')
-                .setTitle('🎉 Welcome to MITPA Beta!')
+                .setTitle('🎉 Welcome to PRACTA Beta!')
                 .setDescription(`Hello **${member.user.username}**, we're glad to have you here!\n\nOur official launch is coming soon! 🚀`)
-                .setFooter({ text: 'MITPA Beta Access', iconURL: client.user.displayAvatarURL() });
+                .setFooter({ text: 'PRACTA Beta Access', iconURL: client.user.displayAvatarURL() });
 
             await member.send({ embeds: [embed] });
         } catch (err) {

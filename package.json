@@ -1,5 +1,5 @@
 {
-  "name": "mitpa-beta-bot",
+  "name": "practa-beta-bot",
   "version": "1.0.0",
   "type": "module",
   "main": "src/index.js",

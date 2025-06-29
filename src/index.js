@@ -53,8 +53,8 @@ client.on('interactionCreate', async interaction => {
     } else if (commandName === 'about') {
         const embed = new EmbedBuilder()
             .setColor('#5865F2')
-            .setTitle('About MITPA')
-            .setDescription('MITPA is an open-source community focused on helping students prepare for admission to the Massachusetts Institute of Technology (MIT). It provides a platform for students worldwide to discuss study strategies, share experiences, and connect with like-minded individuals. The primary language of the community is English, and it aims to foster collaboration, knowledge exchange, and academic growth.');
+            .setTitle('About PRACTA')
+            .setDescription('PRACTA is an open-source community focused on helping students prepare for admission to the Massachusetts Institute of Technology (MIT). It provides a platform for students worldwide to discuss study strategies, share experiences, and connect with like-minded individuals. The primary language of the community is English, and it aims to foster collaboration, knowledge exchange, and academic growth.');
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }
 });
@@ -74,14 +74,14 @@ function registerSlashCommands() {
     const commands = [
         new SlashCommandBuilder().setName('beta_status').setDescription('Check the beta status'),
         new SlashCommandBuilder().setName('timeline').setDescription('Show the project timeline'),
-        new SlashCommandBuilder().setName('about').setDescription('Learn about the MITPA Beta Bot')
+        new SlashCommandBuilder().setName('about').setDescription('Learn about the PRACTA Beta Bot')
     ].map(command => command.toJSON());
 
     client.application.commands.set(commands);
 }
 
 async function getWorkflowStatus() {
-    const url = `https://api.github.com/repos/MITPAcademy/bot-beta/actions/workflows/test.yml/runs?branch=main&per_page=1`;
+    const url = `https://api.github.com/repos/PRACTAcademy/bot-beta/actions/workflows/test.yml/runs?branch=main&per_page=1`;
 
     try {
         const response = await fetch(url, {

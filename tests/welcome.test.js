@@ -9,7 +9,7 @@ describe('welcome system', () => {
         };
 
         const embed = {
-            title: '🎉 Welcome to MITPA Beta!',
+            title: '🎉 Welcome to PRACTA Beta!',
             description: expect.stringContaining('Tester')
         };
 

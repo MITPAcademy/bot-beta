@@ -13,7 +13,7 @@ describe('createCountdownEmbed', () => {
         const embed = createCountdownEmbed(futureDate, fakeClient);
 
         expect(embed).toBeDefined();
-        expect(embed.embeds[0].data.title).toContain('MITPA Launch Countdown');
+        expect(embed.embeds[0].data.title).toContain('PRACTA Launch Countdown');
         expect(embed.embeds[0].data.description).toMatch(/\d+d \d+h \d+m \d+s/);
     });
 

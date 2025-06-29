@@ -61,7 +61,7 @@ describe('registerRulesPrompt', () => {
 
         expect(fakeMember.roles.add).toHaveBeenCalled();
         expect(fakeInteraction.reply).toHaveBeenCalledWith({
-            content: '✅ You have been granted access to the server!',
+            content: '✅ You have been granted access to the chat!',
             ephemeral: true
         });
     });
@@ -78,7 +78,7 @@ describe('registerRulesPrompt', () => {
 
         expect(fakeMember.roles.add).not.toHaveBeenCalled();
         expect(fakeInteraction.reply).toHaveBeenCalledWith({
-            content: '✅ You have been granted access to the server!',
+            content: '✅ You have been granted access to the chat!',
             ephemeral: true
         });
     });

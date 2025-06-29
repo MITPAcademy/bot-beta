@@ -15,7 +15,7 @@ export default function registerRulesPrompt(client) {
                 `Please read the server rules carefully! To participate, you must agree to all of them.\n\n` +
                 `Click the button below to confirm that you have read and agree to the rules.`
             )
-            .setFooter({ text: 'MITPA | Rules Confirmation', iconURL: client.user.displayAvatarURL() });
+            .setFooter({ text: 'PRACTA | Rules Confirmation', iconURL: client.user.displayAvatarURL() });
 
         const button = new ButtonBuilder()
             .setCustomId('accept_rules')
