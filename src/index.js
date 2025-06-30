@@ -5,11 +5,11 @@ import { fileURLToPath } from 'url';
 import fetch from 'node-fetch';
 import express from 'express';
 import embedRouter from './routes/embed.js';
-
 import registerWelcomeEvent from './events/welcome.js';
 import registerRulesPrompt from './events/apply.js';
 import startCountdown from './events/countdown.js';
 import config from '../config.json' with { type: "json" };
+import { checkDocsUpdates } from './watcher/docWatcher.js';
 
 dotenv.config();
 
@@ -30,6 +30,8 @@ client.once('ready', () => {
     console.log(`✅ Bot online as ${client.user.tag}`);
     startCountdown(client);
     registerSlashCommands();
+
+    setInterval(() => checkDocsUpdates(sendUpdate), 10 * 60 * 1000);
 });
 
 registerWelcomeEvent(client);
@@ -41,7 +43,6 @@ client.on('interactionCreate', async interaction => {
     const { commandName } = interaction;
 
     if (commandName === 'beta_status') {
-        // GitHub workflow status check
         const statusMessage = await getWorkflowStatus();
         await interaction.reply({ content: `Beta status: ${statusMessage}`, ephemeral: true });
     } else if (commandName === 'timeline') {
@@ -114,6 +115,13 @@ async function getWorkflowStatus() {
     } catch (error) {
         return `⚠️ Error fetching workflow status: ${error.message}`;
     }
+}
+
+async function sendUpdate(updates) {
+    const channel = await client.channels.fetch('1373355400706916352');
+    let msg = `@everyone\n\n📝 **Documentation updated!**\n\n`;
+    msg += updates.map(u => `- \`${u.file}\` (Last updated: ${new Date(u.lastUpdate).toLocaleString('en-US', { timeZone: 'UTC', dateStyle: 'medium', timeStyle: 'short' })} UTC)`).join('\n');
+    channel.send(msg);
 }
 
 const app = express();
