@@ -10,6 +10,8 @@ import registerRulesPrompt from './events/apply.js';
 import startCountdown from './events/countdown.js';
 import config from '../config.json' with { type: "json" };
 import { checkDocsUpdates } from './watcher/docWatcher.js';
+import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -26,10 +28,40 @@ const client = new Client({
     partials: [Partials.Channel]
 });
 
+const ALLOWED_GUILD_ID = '1346664147600932949';
+
+async function leaveUnauthorizedGuilds() {
+    const guilds = await client.guilds.fetch();
+    for (const [guildId, guild] of guilds) {
+        if (guildId !== ALLOWED_GUILD_ID) {
+            try {
+                const g = await client.guilds.fetch(guildId);
+                await g.leave();
+                console.log(`Unauthorized server exit: ${guildId}`);
+            } catch (err) {
+                console.error(`Error exiting server: ${guildId}:`, err);
+            }
+        }
+    }
+}
+
 client.once('ready', () => {
     console.log(`✅ Bot online as ${client.user.tag}`);
     startCountdown(client);
     registerSlashCommands();
+
+    leaveUnauthorizedGuilds();
+
+    client.on('guildCreate', async (guild) => {
+        if (guild.id !== ALLOWED_GUILD_ID) {
+            try {
+                await guild.leave();
+                console.log(`Left unauthorized server: ${guild.id}`);
+            } catch (err) {
+                console.error(`Error leaving server ${guild.id}:`, err);
+            }
+        }
+    });
 
     setInterval(() => checkDocsUpdates(sendUpdate), 10 * 60 * 1000);
 });
@@ -55,7 +87,7 @@ client.on('interactionCreate', async interaction => {
         const embed = new EmbedBuilder()
             .setColor('#5865F2')
             .setTitle('About PRACTA')
-            .setDescription('PRACTA is an open-source community focused on helping students prepare for admission to the Massachusetts Institute of Technology (MIT). It provides a platform for students worldwide to discuss study strategies, share experiences, and connect with like-minded individuals. The primary language of the community is English, and it aims to foster collaboration, knowledge exchange, and academic growth.');
+            .setDescription('PRACTA is an open-source community focused on helping students prepare for the SAT with a focus on admission to MIT. It provides a platform for students worldwide to discuss study strategies, share experiences, and connect with like-minded individuals.\n\n🔤 Our primary language is **English**, and we are committed to fostering **collaboration**, **knowledge exchange**, and **academic growth**.');
         await interaction.reply({ embeds: [embed], ephemeral: true });
     }
 });
@@ -128,9 +160,27 @@ const app = express();
 app.use(express.json());
 app.use('/embed', embedRouter);
 
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'PRACTA Bot API',
+            version: '1.0.0',
+            description: 'Automatic documentation for PRACTA Bot Express routes',
+        },
+        servers: [
+            { url: 'http://localhost:3000', description: 'Local server' }
+        ],
+    },
+    apis: [path.join(__dirname, '/routes/*.js')],
+};
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Express server running on port ${PORT}`);
+    console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
 });
 
 client.login(process.env.DISCORD_TOKEN);
