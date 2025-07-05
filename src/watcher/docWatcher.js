@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import fs from 'fs/promises';
+import dotenv from 'dotenv';
 
 const OWNER = 'PRACTAcademy';
 const REPO = 'docs.practa.tech';
@@ -7,6 +8,9 @@ const DOCS_PATH = 'docs';
 const CACHE_FILE = './docs_cache.json';
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 async function fetchDocsMdFiles() {
     const url = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${DOCS_PATH}`;
