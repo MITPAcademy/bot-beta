@@ -1,3 +1,4 @@
+
 import { EmbedBuilder, Events } from 'discord.js';
 
 export default function registerWelcomeEvent(client) {
